@@ -1,6 +1,6 @@
 # AEM Image Service
 
-This is project built from mvn archetype version 25. This project is intended to demonstrate the usage of OSGI config and services to render Asset information on the page component. Below are the steps to build this project on local machine to use. Since this is generated from aem project archetype, it creates 
+This is project built from mvn archetype version 23. This project is intended to demonstrate the usage of OSGI config and services to render digital assets on the page component in a responsive grid. Below are the steps to build this project on local machine to use. Since this is generated from aem project archetype, it creates the complete boiler plate for the AEM project. 
 
 ## How to build
 

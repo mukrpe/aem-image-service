@@ -1,0 +1,14 @@
+
+<div class="we-list we-list--grid we-list--teaser we-list--image aem-GridColumn aem-GridColumn--default--12">
+<ul data-sly-use.list="com.aem.image.core.services.ImageService"
+    data-sly-list.item="${list.assetData}"
+    data-sly-use.template="core/wcm/components/commons/v1/templates.html"
+    data-sly-use.itemTemplate="item.html"
+            data-sly-test.itemType="${properties.itemType ? properties.itemType : 'article'}"
+    class="cmp-list">
+    <li class="cmp-list__item" data-sly-call="${itemTemplate[itemType] @ list = list, item = item}">
+    </li>
+</ul>
+<sly data-sly-call="${template.placeholder @ isEmpty=list.listItems.size == 0, classAppend='cmp-list'}"></sly>
+
+</div>

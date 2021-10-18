@@ -1,0 +1,20 @@
+<template data-sly-template.item="${@ list, item}">
+    <article>
+        <a class="cmp-list__item-link" href="${item.URL}" data-sly-unwrap="${!list.linkItems}">
+            <span class="cmp-list__item-title">${item.title}</span>
+            <span data-sly-test="${list.showModificationDate}"
+                  class="cmp-list__item-date">${list.dateFormatString @format=item.lastModified}</span>
+        </a>
+        <span data-sly-test="${list.showDescription}" class="cmp-list__item-description">${item.description}</span>
+    </article>
+</template>
+<template data-sly-template.article="${@ list, item}">
+    <article>
+        <a class="cmp-list__item-link" href="${item.path}">
+        <div data-cmp-src="${item.path}" data-asset="${item.path}" data-asset-id="c2d1dd7a-1389-475b-a5cb-5f6c478c4dc5" class="cmp-image" itemscope="" itemtype="http://schema.org/ImageObject">
+            <img src="${item.path}" class="cmp-image__image" itemprop="contentUrl" data-cmp-hook-image="image" alt="">
+        </div>
+            <span class="cmp-list__item-title">${item.title}</span>
+        </a>
+    </article>
+</template>
