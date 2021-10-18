@@ -2,11 +2,25 @@
 
 This is project built from mvn archetype version 23. This project is intended to demonstrate the usage of OSGI config and services to render digital assets on the page component in a responsive grid. Below are the steps to build this project on local machine to use. Since this is generated from aem project archetype, it creates the complete boiler plate for the AEM project. 
 
+
+## System Requirements.
+
+Below are the system requirements needed to validate the code for this exercise.
+
+* Install AEM 6.5.0. AEM 6.5.0 comes with We-Retail code and content.
+* Core Components need for this project are provided by the archetype used in the mvn command to generate this project.
+* Java 1.8
+* Once the AEM is installed, create a service user named: **image-service-user** and grant read access to the repo. (For this test, I gave complete read access to the repo for this service user).
+
+
 ## How to build
 
-Get the latest code from the git repo:
+Get the latest code from the git repo to a local directory.
 
-    git clone <repo url> <TO-DO>
+    cd ~/Downloads
+    mkdir code-test
+    cd code-test
+    git clone https://github.com/mukrpe/aem-image-service.git
  
 To build all the modules run in the project root directory the following command with Maven 3:
 
@@ -16,28 +30,24 @@ If you have a running AEM instance you can build and package the whole project a
 
     mvn clean install -PautoInstallPackage
 
-## Testing
+## Tasks completed as part this exercise.
 
-There are three levels of testing contained in the project:
+*aem-image* project will contain the below as part this exercise. 
 
-* unit test in core: this show-cases classic unit testing of the code contained in the bundle. To test, execute:
+* ImageServiceImpl - OSGI service that checks for the OSGI configuration about the assets to be returned to the pages. 
+    * ImageServiceImpl gets enabled based on the *isEnabled* in the AEM Image Service osgi configuration.
+    * An additional field, Asset Count, in the same osgi confi is provided to limit the asset count returned to the front-end to avoid passing root DAM path.
+    * An additional method to provide the JSON representation of the string is provided to be used by servlets in future. (if the request is not from the Sightly pages/components)     
 
-    mvn clean test
+* ImageServiceUtil - Utility class to query and process the requests from the service layer.
 
-* server-side integration tests: this allows to run unit-like tests in the AEM-environment, ie on the AEM server. To test, execute:
+* Page Template and Components
+    * As instructed, the page component from *aem-image* project inherits from We-Retail's page component.
+    * The clientlibs are inherited from the We-Retail Project.
+    * Added customization to Asset List component in aem-image project to invoke the OSGI service to render the assets in responsive grid.
+    * List component is added to the template so when the user is validating this exercise, creating the **Content Page** will load the images in the responsive grid.   
 
-    mvn clean verify -PintegrationTests
-
-* client-side Hobbes.js tests: JavaScript-based browser-side tests that verify browser-side behavior. To test:
-
-    in the browser, open the page in 'Developer mode', open the left panel and switch to the 'Tests' tab and find the generated 'MyName Tests' and run them.
-
-
-## Maven settings
-
-The project comes with the auto-public repository configured. To setup the repository in your Maven settings, refer to:
-
-    http://helpx.adobe.com/experience-manager/kb/SetUpTheAdobeMavenRepository.html
+## Maven command used to generate this project
 
 Below is the mvn command used to generate this project:
 
@@ -50,3 +60,5 @@ Below is the mvn command used to generate this project:
 	 -D appId="aem-image" \
 	 -D groupId="com.aem.image" \
 	 -D frontendModule=general
+
+	 

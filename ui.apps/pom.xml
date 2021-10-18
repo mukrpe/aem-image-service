@@ -135,14 +135,6 @@
         </dependency>
 
         <dependency>
-            <groupId>com.aem.image</groupId>
-            <artifactId>aem-image.ui.frontend</artifactId>
-            <version>${project.version}</version>
-            <type>zip</type>
-        </dependency>
-
-
-        <dependency>
             <groupId>com.adobe.cq</groupId>
             <artifactId>core.wcm.components.core</artifactId>
         </dependency>
