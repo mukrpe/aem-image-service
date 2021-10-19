@@ -26,7 +26,6 @@ import com.aem.image.core.services.AssetData;
 import com.aem.image.core.services.ImageService;
 import com.aem.image.core.util.ImageServiceUtil;
 import com.day.cq.search.QueryBuilder;
-import com.fasterxml.jackson.core.JsonProcessingException;
 
 /**
  * Image Service Impl.
@@ -137,6 +136,7 @@ public class ImageServiceImpl implements ImageService {
 	 */
 	public List<AssetData> getAssetData() {	    	
 		try {
+			log.info("Inside getAssetData method");
 			ResourceResolver resolver = resourceResolverFactory.getServiceResourceResolver(SERVICE_MAP);
 			session = resolver.adaptTo(Session.class);
 			assetList = ImageServiceUtil.getAssetData(ImageServiceUtil.findAssets(session, builder, rootPath, assetLimit));

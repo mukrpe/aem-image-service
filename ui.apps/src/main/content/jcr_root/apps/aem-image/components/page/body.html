@@ -1,3 +1,11 @@
+<!-- Adding this inline style to fix the conflicts with We-Retail clientlibs. In real project this needs to be moved to the clientlibs section of the code -->
+
+<style>
+body {
+  background-color: white !important;
+}
+</style>
+
 <div class="container">
     <sly data-sly-use.templatedContainer="com.day.cq.wcm.foundation.TemplatedContainer"
          data-sly-repeat.child="${templatedContainer.structureResources}"

@@ -30,28 +30,28 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ArrayNode;
-import com.fasterxml.jackson.databind.node.ObjectNode;
+import com.fasterxml.jackson.databind.node.ObjectNode; 
 
 public class ImageServiceUtil {
-	
+
 	private static final Logger log = LoggerFactory.getLogger(ImageServiceUtil.class);
-	
+
 	/**
-     * Get all child assets from the specified path as JSON
-     *
-     * @param resourceResolver  {@code ResourceResolver}
-     * @param resourceResolver  {@code ResourceResolver}
-     * @return                  {@code Iterator}
+	 * Get all child assets from the specified path as JSON
+	 *
+	 * @param resourceResolver  {@code ResourceResolver}
+	 * @param resourceResolver  {@code ResourceResolver}
+	 * @return                  {@code Iterator}
 	 * @throws JsonProcessingException 
-     */
+	 */
 	public static String getAssetsJSON(ResourceResolver resolver, String path, int assetLimit) throws JsonProcessingException{
-		
+
 		log.info("Inside getAssetsJSON with path: "+ path);
 		Iterator<Resource> allChildAssets = resolver.findResources(
-				  String.format(ImageUtilConstants.IMAGE_GET_SQL, path),javax.jcr.query.Query.JCR_SQL2);
+				String.format(ImageUtilConstants.IMAGE_GET_SQL, path),javax.jcr.query.Query.JCR_SQL2);
 		ObjectMapper mapper = new ObjectMapper();
 		ArrayNode arrayNode = mapper.createArrayNode();
-		
+
 		while(allChildAssets.hasNext()) {
 			Asset asset = allChildAssets.next().adaptTo(Asset.class);
 			if(null != asset && StringUtils.contains(asset.getMimeType(), "image")) {
@@ -65,18 +65,18 @@ public class ImageServiceUtil {
 		}
 		String json = arrayNode.toString();
 
-	   log.info(json);
+		log.info(json);
 		return json;
 	}
-	
+
 	/**
-     * Get all child assets from the specified path as JSON
-     *
-     * @param resourceResolver  {@code ResourceResolver}
-     * @param resourceResolver  {@code ResourceResolver}
-     * @return ObjectMapper
+	 * Get all child assets from the specified path as JSON
+	 *
+	 * @param resourceResolver  {@code ResourceResolver}
+	 * @param resourceResolver  {@code ResourceResolver}
+	 * @return ObjectMapper
 	 * @throws JsonProcessingException 
-     */
+	 */
 	public static List<AssetData> getAssetData(String json) {
 		final ObjectMapper objectMapper = new ObjectMapper();
 		List<AssetData> langList = null;
@@ -86,58 +86,56 @@ public class ImageServiceUtil {
 			langList.forEach(x -> log.info(x.getPath()));
 			return langList;
 		} catch (JsonParseException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (JsonMappingException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-
 		return langList;
 	}
-	
-	
+
+
 	/**
-     * Find all assets under the contentPath that have type dam:Asset
-     *
-     * @param session the resource resolver used to find the Assets to move.
-     * @param builder      Query Builder.
-     * @param contentPath      the DAM contentPath which the task covers.
-     * @param assetLimit      Limit of search results.
-     * @return the json string of assets from the given content path.
-     */
+	 * Find all assets under the contentPath that have type dam:Asset
+	 *
+	 * @param session the resource resolver used to find the Assets to move.
+	 * @param builder      Query Builder.
+	 * @param contentPath      the DAM contentPath which the task covers.
+	 * @param assetLimit      Limit of search results.
+	 * @return the json string of assets from the given content path.
+	 */
 	public static String  findAssets(Session session, QueryBuilder builder, String contentPath, int assetLimit) {
-	    	log.debug("Inside findAssets method");
-	    	Map<String, String> params = new HashMap<String, String>();
-	    	params.put("path", contentPath);
-	    	params.put("type", "dam:asset");
-	    	params.put("p.limit", String.valueOf(assetLimit));
-	        Query query = builder.createQuery(PredicateGroup.create(params), session);
-	        
-	        SearchResult result = query.getResult();
-	        log.debug("Result count:" + result.getHits().size());
-	        
-	        ObjectMapper mapper = new ObjectMapper();
-			ArrayNode arrayNode = mapper.createArrayNode();
-			
-	        for(Hit hit : result.getHits()) {
-				try {
-					Asset asset = hit.getResource().adaptTo(Asset.class);
+		log.debug("Inside findAssets method");
+		Map<String, String> params = new HashMap<String, String>();
+		params.put("path", contentPath);
+		params.put("type", "dam:Asset");
+		params.put("p.limit", String.valueOf(assetLimit));
+		Query query = builder.createQuery(PredicateGroup.create(params), session);
+
+		SearchResult result = query.getResult();
+		log.debug("Result count:" + result.getHits().size());
+
+		ObjectMapper mapper = new ObjectMapper();
+		ArrayNode arrayNode = mapper.createArrayNode();
+
+		for(Hit hit : result.getHits()) {
+			try {
+				Asset asset = hit.getResource().adaptTo(Asset.class);
+				if(null != asset && StringUtils.contains(asset.getMimeType(), "image")) {
 					ObjectNode assetJSON = mapper.createObjectNode();
 					assetJSON.put("title", StringUtils.defaultString(asset.getMetadataValue("dc:title"), asset.getName()));
 					assetJSON.put("path", asset.getPath());
 					assetJSON.put("name", asset.getName());
+					assetJSON.put("format", asset.getMimeType());
 					arrayNode.addAll(Arrays.asList(assetJSON));
-				
-				} catch (RepositoryException e) {
-					e.printStackTrace();
-				}			
-			}
-	        String json = arrayNode.toString();
-	 	   	log.debug(json);
-	 		return json;
-	    }
+				}
+			} catch (RepositoryException e) {
+				e.printStackTrace();
+			}			
+		}
+		String json = arrayNode.toString();
+		log.debug(json);
+		return json;
+	}
 }
