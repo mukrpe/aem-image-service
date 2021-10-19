@@ -28,8 +28,13 @@ To build all the modules run in the project root directory the following command
 
 If you have a running AEM instance you can build and package the whole project and deploy into AEM with
 
-    mvn clean install -PautoInstallPackage
+    mvn clean install -PautoInstallSinglePackage
+    
+PS: sometimes observed that the core bundle isn't accessible immediately. Either give sometime to become active(from log messages) or do a core bundle deployment using below from core directory:
 
+    mvn clean install -PautoInstallBundle
+    
+    
 ## Tasks completed as part this exercise.
 
 *aem-image* project will contain the below as part this exercise. 
