@@ -10,7 +10,7 @@ Below are the system requirements needed to validate the code for this exercise.
 * Install AEM 6.5.0. AEM 6.5.0 comes with We-Retail code and content.
 * Core Components need for this project are provided by the archetype used in the mvn command to generate this project.
 * Java 1.8
-* Once the AEM is installed, create a service user named: **image-service-user** and grant read access to the repo. (For this test, I gave complete read access to the repo for this service user).
+* Once the AEM is installed, create a service user named: **image-service-user** and grant read access to the repo. Make sure to grand read acceess to the /content path. (For this test, I gave complete read access to the repo for this service user).
 
 
 ## How to build
@@ -44,7 +44,7 @@ If you have a running AEM instance you can build and package the whole project a
 * Page Template and Components
     * As instructed, the page component from *aem-image* project inherits from We-Retail's page component.
     * The clientlibs are inherited from the We-Retail Project.
-    * Added customization to Asset List component in aem-image project to invoke the OSGI service to render the assets in responsive grid.
+    * Added customization to Asset List component in aem-image project to invoke the OSGI service to render the assets in responsive grid. Added OSGI to process the request as per the given task. But it would be ideal for writing a model class to attach to a component.
     * List component is added to the template so when the user is validating this exercise, creating the **Content Page** will load the images in the responsive grid.   
 
 ## Maven command used to generate this project

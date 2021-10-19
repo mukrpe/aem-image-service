@@ -136,11 +136,13 @@ public class ImageServiceImpl implements ImageService {
 	 */
 	public List<AssetData> getAssetData() {	    	
 		try {
-			log.info("Inside getAssetData method");
-			ResourceResolver resolver = resourceResolverFactory.getServiceResourceResolver(SERVICE_MAP);
-			session = resolver.adaptTo(Session.class);
-			assetList = ImageServiceUtil.getAssetData(ImageServiceUtil.findAssets(session, builder, rootPath, assetLimit));
-			log.info("Total assets found: " + assetList.size());
+			if(isEnabled) {
+				log.info("Inside getAssetData method");
+				ResourceResolver resolver = resourceResolverFactory.getServiceResourceResolver(SERVICE_MAP);
+				session = resolver.adaptTo(Session.class);
+				assetList = ImageServiceUtil.getAssetData(ImageServiceUtil.findAssets(session, builder, rootPath, assetLimit));
+				log.info("Total assets found: " + assetList.size());
+			}
 		} catch (LoginException e) {
 			log.error(e.getMessage());
 			e.printStackTrace();

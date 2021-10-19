@@ -37,7 +37,8 @@ public class ImageServiceUtil {
 	private static final Logger log = LoggerFactory.getLogger(ImageServiceUtil.class);
 
 	/**
-	 * Get all child assets from the specified path as JSON
+	 * Get all child assets from the specified path as JSON. This uses the JCR SQL2. 
+	 * Since there is no limit option to restrict the output results this is not used.
 	 *
 	 * @param resourceResolver  {@code ResourceResolver}
 	 * @param resourceResolver  {@code ResourceResolver}
@@ -54,7 +55,7 @@ public class ImageServiceUtil {
 
 		while(allChildAssets.hasNext()) {
 			Asset asset = allChildAssets.next().adaptTo(Asset.class);
-			if(null != asset && StringUtils.contains(asset.getMimeType(), "image")) {
+			if(null != asset && StringUtils.contains(asset.getMimeType(), "image")) {      // Added this check to avoid ContentFragments and restrict to image mimetypes only.
 				ObjectNode assetJSON = mapper.createObjectNode();
 				assetJSON.put("title", StringUtils.defaultString(asset.getMetadataValue("dc:title")));
 				assetJSON.put("name", asset.getName());
@@ -65,12 +66,12 @@ public class ImageServiceUtil {
 		}
 		String json = arrayNode.toString();
 
-		log.info(json);
+		log.debug(json);
 		return json;
 	}
 
 	/**
-	 * Get all child assets from the specified path as JSON
+	 * Get List of assets from the provided JSON.
 	 *
 	 * @param resourceResolver  {@code ResourceResolver}
 	 * @param resourceResolver  {@code ResourceResolver}
@@ -86,11 +87,11 @@ public class ImageServiceUtil {
 			langList.forEach(x -> log.info(x.getPath()));
 			return langList;
 		} catch (JsonParseException e) {
-			e.printStackTrace();
+			log.error(e.getMessage()); // TO-DO add custom exception handling for the project.
 		} catch (JsonMappingException e) {
-			e.printStackTrace();
+			log.error(e.getMessage()); // TO-DO add custom exception handling for the project.
 		} catch (IOException e) {
-			e.printStackTrace();
+			log.error(e.getMessage()); // TO-DO add custom exception handling for the project.
 		}
 		return langList;
 	}
@@ -122,7 +123,7 @@ public class ImageServiceUtil {
 		for(Hit hit : result.getHits()) {
 			try {
 				Asset asset = hit.getResource().adaptTo(Asset.class);
-				if(null != asset && StringUtils.contains(asset.getMimeType(), "image")) {
+				if(null != asset && StringUtils.contains(asset.getMimeType(), "image")) { // Added this check to avoid ContentFragments and restrict to image mimetypes only.
 					ObjectNode assetJSON = mapper.createObjectNode();
 					assetJSON.put("title", StringUtils.defaultString(asset.getMetadataValue("dc:title"), asset.getName()));
 					assetJSON.put("path", asset.getPath());
@@ -131,7 +132,7 @@ public class ImageServiceUtil {
 					arrayNode.addAll(Arrays.asList(assetJSON));
 				}
 			} catch (RepositoryException e) {
-				e.printStackTrace();
+				log.error(e.getMessage());  // TO-DO add custom exception handling for the project.
 			}			
 		}
 		String json = arrayNode.toString();
