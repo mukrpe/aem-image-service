@@ -68,7 +68,7 @@ Below is the mvn command used to generate this project:
 	 
 	 
 Reference image for user permissions
-![](resources/Screen Shot 2021-10-18 at 20.34.31.png)
+![Permissions](https://github.com/mukrpe/aem-image-service/blob/main/resources/Screen%20Shot%202021-10-18%20at%2020.34.02.png)
 
 Reference image for responsivegrid on AEM page.
-![](resources/Screen Shot 2021-10-18 at 20.34.02.png)	 
+![Asset List](https://github.com/mukrpe/aem-image-service/blob/main/resources/Screen%20Shot%202021-10-18%20at%2020.34.31.png)
