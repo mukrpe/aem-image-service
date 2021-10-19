@@ -51,7 +51,7 @@ PS: sometimes observed that the core bundle isn't accessible immediately. Either
     * The clientlibs are inherited from the We-Retail Project.
     * Added customization to Asset List component in aem-image project to invoke the OSGI service to render the assets in responsive grid. Added OSGI to process the request as per the given task. But it would be ideal for writing a model class to attach to a component.
     * List component is added to the template so when the user is validating this exercise, creating the **Content Page** will load the images in the responsive grid.   
-
+* To test this code, once the package is deployed and needed permissions are set for the service user, create a page with Content Page template under /content/aem-image/us/en. Since the Asset List component is added to the template, the page should load the assets.
 ## Maven command used to generate this project
 
 Below is the mvn command used to generate this project:
@@ -65,5 +65,10 @@ Below is the mvn command used to generate this project:
 	 -D appId="aem-image" \
 	 -D groupId="com.aem.image" \
 	 -D frontendModule=general
-
 	 
+	 
+Reference image for user permissions
+![](resources/Screen Shot 2021-10-18 at 20.34.31.png)
+
+Reference image for responsivegrid on AEM page.
+![](resources/Screen Shot 2021-10-18 at 20.34.02.png)	 
