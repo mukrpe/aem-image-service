@@ -8,7 +8,7 @@ This is project built from mvn archetype version 23. This project is intended to
 Below are the system requirements needed to validate the code for this exercise.
 
 * Install AEM 6.5.0. AEM 6.5.0 comes with We-Retail code and content.
-* Core Components need for this project are provided by the archetype used in the mvn command to generate this project.
+* Core Components needed for this project are provided by the archetype used in the mvn command to generate this project.
 * Java 1.8
 * Once the AEM is installed, create a service user named: **image-service-user** and grant read access to the repo. Make sure to grand read acceess to the /content path. (For this test, I gave complete read access to the repo for this service user).
 
